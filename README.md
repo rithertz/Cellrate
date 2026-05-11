@@ -5,7 +5,7 @@ A long-term pygame game development project documenting my journey from learning
 ---
 
 # Current Stage
-Basic player movement using keyboard input
+Functional gameplay loop with collectibles and progression
 
 ---
 
@@ -15,6 +15,10 @@ Basic player movement using keyboard input
 - Screen boundary collision
 - Resizable window
 - Fullscreen toggle (F11)
+- Coin collection
+- Score system
+- Increasing difficulty
+- Reset mechanic
 
 ---
 
@@ -46,5 +50,12 @@ This repository will gradually evolve through:
 - Added player movement
 - Added fullscreen toggle
 - Introduced OOP structure
+
+## v0.2 — First Gameplay Loop
+- Added collectible coin system
+- Added collision detection
+- Added score tracking
+- Added speed progression mechanic
+- Added game reset system
 
 Future versions will progressively evolve into a complete game.
