@@ -5,7 +5,7 @@ A long-term pygame game development project documenting my journey from learning
 ---
 
 # Current Stage
-Functional gameplay loop with collectibles and progression
+Survival gameplay with enemy bot and difficulty scaling
 
 ---
 
@@ -19,6 +19,11 @@ Functional gameplay loop with collectibles and progression
 - Score system
 - Increasing difficulty
 - Reset mechanic
+- Enemy bot
+- Survival mechanics
+- Dynamic difficulty scaling
+- Progressive enemy spawning
+- Game over state
 
 ---
 
@@ -57,5 +62,13 @@ This repository will gradually evolve through:
 - Added score tracking
 - Added speed progression mechanic
 - Added game reset system
+
+## v0.3 — Enemy AI and Survival Mechanics
+- Added enemy entities
+- Added enemy chase bot
+- Added game over condition
+- Added dynamic difficulty scaling
+- Added multiple enemy spawning
+- Improved gameplay challenge loop
 
 Future versions will progressively evolve into a complete game.

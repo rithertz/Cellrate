@@ -24,19 +24,19 @@ class Player:
         if keys[pygame.K_DOWN] or keys[pygame.K_s]:
             self.rect.y += self.speed
 
-    def clamp_to_screen(self, width, height):
+    def clamp(self, width, height):
         self.rect.x = max(0, min(self.rect.x, width - self.rect.width))
         self.rect.y = max(0, min(self.rect.y, height - self.rect.height))
 
     def update(self, width, height):
         self.handle_input()
-        self.clamp_to_screen(width, height)
+        self.clamp(width, height)
 
     def increase_speed(self, amount):
         self.speed += amount
 
     def reset(self):
-        self.rect.x, self.rect.y = 100, 100
+        self.rect.topleft = (100, 100)
         self.speed = self.base_speed
 
     def draw(self, screen):
@@ -58,30 +58,50 @@ class Coin:
         pygame.draw.rect(screen, self.color, self.rect)
 
 
+# ---------------- ENEMY ---------------- #
+class Enemy:
+    def __init__(self, x, y, size):
+        self.rect = pygame.Rect(x, y, size, size)
+        self.base_speed = 1
+        self.color = (0, 0, 255)
+
+    def update(self, player_rect, speed):
+        if self.rect.x < player_rect.x:
+            self.rect.x += speed
+        elif self.rect.x > player_rect.x:
+            self.rect.x -= speed
+
+        if self.rect.y < player_rect.y:
+            self.rect.y += speed
+        elif self.rect.y > player_rect.y:
+            self.rect.y -= speed
+
+    def draw(self, screen):
+        pygame.draw.rect(screen, self.color, self.rect)
+
+
 # ---------------- GAME ---------------- #
 class Game:
     def __init__(self):
-        # Display
         self.fullscreen = False
         self.width, self.height = 800, 600
         self.screen = None
         self.set_display()
 
-        # Core
         self.clock = pygame.time.Clock()
         self.running = True
 
-        # Game state
-        self.score = 0
-        self.game_over = False
-
-        # Font
         self.font = pygame.font.SysFont(None, 36)
 
-        # Objects
         self.player = Player(100, 100, 50, 5)
         self.coin = Coin(20)
         self.coin.spawn(self.width, self.height)
+
+        self.enemies = []
+        self.spawn_enemy()
+
+        self.score = 0
+        self.game_over = False
 
     # -------- DISPLAY -------- #
     def set_display(self):
@@ -96,7 +116,7 @@ class Game:
                 (self.width, self.height), pygame.RESIZABLE
             )
 
-        pygame.display.set_caption("OOP Game")
+        pygame.display.set_caption("Final Game")
 
     # -------- MAIN LOOP -------- #
     def run(self):
@@ -125,7 +145,7 @@ class Game:
                     self.set_display()
 
                 elif event.key == pygame.K_r and self.game_over:
-                    self.reset_game()
+                    self.reset()
 
             elif event.type == pygame.VIDEORESIZE:
                 if not self.fullscreen:
@@ -134,7 +154,7 @@ class Game:
                         (self.width, self.height), pygame.RESIZABLE
                     )
 
-    # -------- UPDATE -------- #
+    # -------- GAME LOGIC -------- #
     def update(self):
         if self.game_over:
             return
@@ -147,6 +167,19 @@ class Game:
             self.player.increase_speed(0.3)
             self.coin.spawn(self.width, self.height)
 
+            # Add new enemy every 5 points
+            if self.score % 5 == 0:
+                self.spawn_enemy()
+
+        # Enemy difficulty scaling
+        enemy_speed = min(1 + self.score * 0.1, 6)
+
+        for enemy in self.enemies:
+            enemy.update(self.player.rect, enemy_speed)
+
+            if self.player.rect.colliderect(enemy.rect):
+                self.game_over = True
+
     # -------- DRAW -------- #
     def draw(self):
         self.screen.fill((0, 0, 0))
@@ -154,23 +187,31 @@ class Game:
         self.player.draw(self.screen)
         self.coin.draw(self.screen)
 
-        # Score
+        for enemy in self.enemies:
+            enemy.draw(self.screen)
+
         score_text = self.font.render(f"Score: {self.score}", True, (255, 255, 255))
         self.screen.blit(score_text, (10, 10))
 
         if self.game_over:
-            over_text = self.font.render("GAME OVER - Press R", True, (255, 255, 255))
-            self.screen.blit(over_text, (self.width // 3, self.height // 2))
+            text = self.font.render("GAME OVER - Press R", True, (255, 255, 255))
+            self.screen.blit(text, (self.width // 3, self.height // 2))
 
-    # -------- RESET -------- #
-    def reset_game(self):
-        self.score = 0
-        self.game_over = False
+    # -------- HELPERS -------- #
+    def spawn_enemy(self):
+        x = random.randint(0, self.width - 30)
+        y = random.randint(0, self.height - 30)
+        self.enemies.append(Enemy(x, y, 30))
+
+    def reset(self):
         self.player.reset()
         self.coin.spawn(self.width, self.height)
+        self.enemies = []
+        self.spawn_enemy()
+        self.score = 0
+        self.game_over = False
 
 
 # -------- ENTRY -------- #
 if __name__ == "__main__":
-    game = Game()
-    game.run()
+    Game().run()
