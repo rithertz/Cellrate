@@ -1,36 +1,58 @@
 # Cellrate
 
-A long-term pygame game development project documenting my journey from learning pygame basics to building a complete scalable game.
+A long-term pygame game development project documenting my journey from learning pygame basics to building a scalable game architecture.
 
 ---
 
 # Current Stage
-Survival gameplay with enemy bot and difficulty scaling
+Modular survival game prototype with enemy bots, UI systems, and audio integration
 
 ---
 
 # Features
-- OOP structure
-- Player movement
-- Screen boundary collision
-- Resizable window
-- Fullscreen toggle (F11)
-- Coin collection
-- Score system
-- Increasing difficulty
-- Reset mechanic
-- Enemy bot
-- Survival mechanics
+- OOP-based architecture
+- Modular project structure
+- Player movement system
+- Enemy chase bot
+- Coin collection gameplay loop
 - Dynamic difficulty scaling
 - Progressive enemy spawning
-- Game over state
+- Game states (Menu / Playing / Game Over)
+- Audio system (sound + music)
+- UI rendering system
+- Screen boundary collision
+- Resizable window
+- Fullscreen support
+- Score system
+- Reset/restart mechanics
 
 ---
 
 # Controls
 - WASD / Arrow Keys → Move
+- ENTER → Start Game
 - F11 → Toggle fullscreen
 - ESC → Quit
+
+---
+
+# Project Structure
+
+cellrate/
+│
+├── core/        # Main game loop and state management
+├── entities/    # Player, enemies, collectibles
+├── systems/     # UI and audio systems
+├── assets/      # Sounds and music
+└── config.py    # Shared constants/settings
+
+---
+
+# Development Philosophy
+
+This repository intentionally preserves each stage of development to document the evolution from beginner pygame experiments into a scalable game project.
+
+Rather than jumping directly into advanced architecture, each version reflects the concepts being learned and implemented at that stage.
 
 ---
 
@@ -38,11 +60,11 @@ Survival gameplay with enemy bot and difficulty scaling
 This repository will gradually evolve through:
 - Better game architecture
 - Sprites and animations
-- Enemy AI
+- Enemy bots improvements
 - Combat systems
 - Procedural generation
-- UI systems
-- Save systems
+- Advanced UI systems
+- Save/load systems
 - Optimization
 - Advanced pygame techniques
 
@@ -63,12 +85,23 @@ This repository will gradually evolve through:
 - Added speed progression mechanic
 - Added game reset system
 
-## v0.3 — Enemy AI and Survival Mechanics
+## v0.3 — Enemy bots and Survival Mechanics
 - Added enemy entities
-- Added enemy chase bot
+- Added enemy chase bots
 - Added game over condition
 - Added dynamic difficulty scaling
 - Added multiple enemy spawning
 - Improved gameplay challenge loop
+
+## v0.4 — Modular Architecture Refactor
+- Refactored project into multiple modules
+- Added centralized configuration system
+- Added UI rendering system
+- Added audio management system
+- Added scalable entity structure
+- Added game state system (Menu / Playing / Game Over)
+- Organized assets into dedicated directories
+
+---
 
 Future versions will progressively evolve into a complete game.
